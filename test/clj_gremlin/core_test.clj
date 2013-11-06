@@ -43,6 +43,14 @@
                                         {:name "ripple" :lang "java"}
                                         {:name "josh" :age 32}
                                         }))
+      (is (= (into #{} (props (V g) "name")) #{
+                                               {:name "lop"}
+                                               {:name "vadas"}
+                                               {:name "marko"}
+                                               {:name "peter"}
+                                               {:name "ripple"}
+                                               {:name "josh"}
+                                               }))
       )
 
     (testing "E"
