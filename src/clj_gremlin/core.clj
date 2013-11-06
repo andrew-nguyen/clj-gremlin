@@ -41,8 +41,8 @@
    ([^Graph g i] (.getEdge g i))
    ([^Graph g i & is] (map #(.getEdge g %) (cons i is))))
 
-(defn props [^GremlinClojurePipeline p]
-  (.map p))
+(defn props [^GremlinClojurePipeline p & prop-keys]
+  (.map p (into-array String prop-keys)))
 
 (defn prop [^Element e k]
   (.getProperty e (name k)))
@@ -84,7 +84,6 @@
   (internal-has-kv [self k v])
   (internal-has-cmp [self k cmp v])
   (internal-has-not-kv [self k v])
-  (internal-has-not-cmp [self k cmp v])
   (back [self v])
   (internal-_ [self])
   (random [self n])
@@ -175,7 +174,6 @@
   (internal-has-kv [self k v] (.has self k v))
   (internal-has-cmp [self k cmp v] (.has self k cmp v))
   (internal-has-not-kv [self k v] (.hasNot self k v))
-  (internal-has-not-cmp [self k cmp v] (.hasNot self k cmp v))
   (back [self v] (.back self v))
   (internal-_ [self] (._ self))
   (random [self n] (.random self n))
@@ -246,7 +244,6 @@
   (internal-has-kv [self k v] (internal-has-kv (clojure-pipeline self) k v))
   (internal-has-cmp [self k cmp v] (internal-has-cmp (clojure-pipeline self) k cmp v))
   (internal-has-not-kv [self k v] (internal-has-not-kv (clojure-pipeline self) k v))
-  (internal-has-not-cmp [self k cmp v] (internal-has-not-cmp (clojure-pipeline self) k cmp v))
   (back [self v] (back (clojure-pipeline self) v))
   (internal-_ [self] (internal-_ (clojure-pipeline self)))
   (random [self n] (random (clojure-pipeline self) n))
@@ -345,8 +342,7 @@
   ([o k cmp v] (internal-has-cmp o k (get tokens cmp cmp) (ensure-type v))))
 
 (defn has-not
-  ([o k v] (internal-has-not-kv o k v))
-  ([o k cmp v] (internal-has-not-cmp o k (get tokens cmp cmp) (ensure-type v))))
+  ([o k v] (internal-has-not-kv o k v)))
 
 (defn dedup
   ([o] (internal-dedup-simple o))

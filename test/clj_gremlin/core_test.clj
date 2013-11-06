@@ -300,15 +300,6 @@
 
       (is (= (-> g V     (has-not "blah" nil) seq) nil))
 
-      (is (= (-> g V     (has-not "age" > 30) seq) [v2 v1]))
-      (is (= (-> g V     (has-not "age" > 32) seq) [v2 v1 v4]))
-      (is (= (-> g V     (has-not "age" >= 32) seq) [v2 v1]))
-      (is (= (-> g V     (has-not "age" = 32) seq) [v3 v2 v1 v6 v5]))
-      (is (= (-> g V     (has-not "age" not= 32) seq) [v4]))
-      (is (= (-> g V     (has-not "age" < 32) seq) [v6 v4]))
-      (is (= (-> g V     (has-not "age" <= 32) seq) [v6]))
-
-      (is (= (-> g (v 4) (has-not "age" > 30) seq) nil))
       )
 
     (testing "back"
