@@ -5,6 +5,7 @@
            (com.tinkerpop.pipes.sideeffect SideEffectPipe)
            (com.tinkerpop.pipes.util.structures Pair)
            (com.tinkerpop.blueprints Graph
+                                     Edge
                                      Element)
            (com.tinkerpop.gremlin.java GremlinPipeline)
            (com.tinkerpop.gremlin Tokens$T)
@@ -67,7 +68,7 @@
   (step  [self f])
   (transform  [self f])
   (id  [self])
-  (label  [self])
+  (internal-label  [self])
   (outV [self])
   (inV [self])
   (bothV [self])
@@ -135,6 +136,9 @@
     :else o))
 
 (extend-protocol Steps
+  Graph
+  (internal-_ [self] self)
+
   GremlinPipeline
   (internal-out  [self labels] (.out  self (into-array String (map name labels))))
   (internal-outE [self labels] (.outE self (into-array String (map name labels))))
@@ -145,7 +149,7 @@
   (step  [self f]      (.step self (clojure-pipe-function f)))
   (transform [self f]  (.transform self (clojure-pipe-function f)))
   (id [self] (.id self))
-  (label [self] (.label self))
+  (internal-label [self] (.label self))
   (outV [self] (.outV self))
   (inV [self] (.inV self))
   (bothV [self] (.bothV self))
@@ -227,7 +231,7 @@
   (step  [self f]      (step  (clojure-pipeline self) f))
   (transform  [self f]      (transform  (clojure-pipeline self) f))
   (id [self] (id (clojure-pipeline self)))
-  (label [self] (label (clojure-pipeline self)))
+  (internal-label [self] (internal-label (clojure-pipeline self)))
   (outV  [self] (outV (clojure-pipeline self)))
   (inV  [self] (inV (clojure-pipeline self)))
   (bothV  [self] (bothV (clojure-pipeline self)))
@@ -419,3 +423,6 @@
 
 (defn enable-path [o]
   (.enablePath o))
+
+(defn label [o]
+  (internal-label o))
