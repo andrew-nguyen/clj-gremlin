@@ -34,13 +34,13 @@
   ([^Graph g] (clojure-pipeline (.getEdges g)))
   ([^Graph g k v] (clojure-pipeline (.getEdges g (name k) v))))
 
- (defn v
-   ([^Graph g i] (.getVertex g i))
-   ([^Graph g i & is] (map #(.getVertex g %) (cons i is))))
+(defn v
+  ([^Graph g i] (.getVertex g i))
+  ([^Graph g i & is] (map #(.getVertex g %) (cons i is))))
 
- (defn e
-   ([^Graph g i] (.getEdge g i))
-   ([^Graph g i & is] (map #(.getEdge g %) (cons i is))))
+(defn e
+  ([^Graph g i] (.getEdge g i))
+  ([^Graph g i & is] (map #(.getEdge g %) (cons i is))))
 
 (defn props [^GremlinClojurePipeline p & prop-keys]
   (.map p (into-array String prop-keys)))
