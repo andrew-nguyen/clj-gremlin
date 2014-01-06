@@ -6,9 +6,11 @@
            (com.tinkerpop.pipes.util.structures Pair)
            (com.tinkerpop.blueprints Graph
                                      Edge
-                                     Element)
+                                     Element
+                                     GraphQuery)
            (com.tinkerpop.gremlin.java GremlinPipeline)
            (com.tinkerpop.gremlin Tokens$T)
+           (com.google.common.collect Iterables)
            ))
 
 (defn clojure-pipeline [starts]
@@ -82,8 +84,10 @@
   (where [self f])
   (internal-at-single [self n])
   (internal-at-range [self from to])
+  (internal-has-k [self k])
   (internal-has-kv [self k v])
   (internal-has-cmp [self k cmp v])
+  (internal-has-not-k [self k])
   (internal-has-not-kv [self k v])
   (back [self v])
   (internal-_ [self])
@@ -127,6 +131,7 @@
   (internal-copy-split [self pipes])
   (fair-merge [self])
   (exhaust-merge [self])
+  ;(internal-query [self])
   )
 
 (defn- ensure-type [o]
@@ -138,6 +143,21 @@
 (extend-protocol Steps
   Graph
   (internal-_ [self] self)
+  ;(internal-query [self] (.query self))
+
+  GraphQuery
+  (internal-has-k [self k] (.has self k))
+  (internal-has-kv [self k v] (.has self k v))
+  (internal-has-cmp [self k cmp v] (.has self k cmp v))
+  (internal-has-not-k [self k] (.hasNot self k))
+  (internal-hasnot-kv [self k v] (.hasNot self k v))
+  ;(internal-interval [self k start end] (.interval self k start end))
+  ;(internal-limit [self limit] (.limit self limit))
+  ;(internal-vertices [self] (.vertices self))
+  ;(internal-edges [self] (.edges self))
+
+  Iterable
+  (internal-_ [self] (internal-_ (clojure-pipeline self)))
 
   GremlinPipeline
   (internal-out  [self labels] (.out  self (into-array String (map name labels))))
@@ -342,6 +362,7 @@
   ([o n to] (internal-at-range o n to)))
 
 (defn has
+  ([o k] (internal-has-k o k))
   ([o k v] (internal-has-kv o k v))
   ([o k cmp v] (internal-has-cmp o k (get tokens cmp cmp) (ensure-type v))))
 
@@ -426,3 +447,22 @@
 
 (defn label [o]
   (internal-label o))
+
+(defn query [^Graph o]
+  (.query o))
+
+(defn has-not
+  ([o k] (.hasNot o k))
+  ([o k v] (.hasNot o k v)))
+
+(defn interval [^GraphQuery o k start end]
+  (.interval o k start end))
+
+(defn limit [^GraphQuery o l]
+  (.limit o l))
+
+(defn vertices [^GraphQuery o]
+  (.vertices o))
+
+(defn edges [^GraphQuery o]
+  (.edges o))
