@@ -151,7 +151,7 @@
   (internal-has-cmp [self k cmp v] (.has self k cmp v))
   (internal-has-not-k [self k] (.hasNot self k))
   (internal-hasnot-kv [self k v] (.hasNot self k v))
-  ;(internal-interval [self k start end] (.interval self k start end))
+  (interval [self k start end] (.interval self k start end))
   ;(internal-limit [self limit] (.limit self limit))
   ;(internal-vertices [self] (.vertices self))
   ;(internal-edges [self] (.edges self))
@@ -454,9 +454,6 @@
 (defn has-not
   ([o k] (.hasNot o k))
   ([o k v] (.hasNot o k v)))
-
-(defn interval [^GraphQuery o k start end]
-  (.interval o k start end))
 
 (defn limit [^GraphQuery o l]
   (.limit o l))
