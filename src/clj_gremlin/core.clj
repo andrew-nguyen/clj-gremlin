@@ -11,7 +11,8 @@
            (com.tinkerpop.gremlin.java GremlinPipeline)
            (com.tinkerpop.gremlin Tokens$T)
            (com.google.common.collect Iterables)
-           ))
+           )
+  )
 
 (defn clojure-pipeline [starts]
   (GremlinClojurePipeline. starts))
@@ -131,6 +132,7 @@
   (internal-copy-split [self pipes])
   (fair-merge [self])
   (exhaust-merge [self])
+  (internal-remove [self])
   ;(internal-query [self])
   )
 
@@ -240,6 +242,7 @@
   (internal-copy-split [self pipes] (.copySplit self (into-array Pipe pipes)))
   (fair-merge [self] (.fairMerge self))
   (exhaust-merge [self] (.exhaustMerge self))
+  (internal-remove [self] (.remove self))
 
   Element
   (internal-out  [self labels] (internal-out  (clojure-pipeline self) labels))
@@ -310,6 +313,7 @@
   (internal-copy-split [self pipes] (internal-copy-split (clojure-pipeline self) pipes))
   (fair-merge [self] (fair-merge (clojure-pipeline self)))
   (exhaust-merge [self] (exhaust-merge (clojure-pipeline self)))
+  (internal-remove [self] (.remove self))
   )
 
 (defn out [o & labels]
@@ -463,3 +467,6 @@
 
 (defn edges [^GraphQuery o]
   (.edges o))
+
+(defn remove-elements [o]
+  (internal-remove o))
