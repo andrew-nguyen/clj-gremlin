@@ -1,4 +1,4 @@
-(defproject clj-gremlin "2.4.0-ALPHA-3-SNAPSHOT"
+(defproject clj-gremlin "2.4.0-ALPHA-4-SNAPSHOT"
   :description "Implementation of TinkerPop Gremlin 2.0"
   :url "https://github.com/olabini/gremlin-clj"
   :dependencies [[org.clojure/clojure "1.5.1"]

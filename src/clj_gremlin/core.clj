@@ -48,6 +48,9 @@
 (defn props [^GremlinClojurePipeline p & prop-keys]
   (.map p (into-array String prop-keys)))
 
+(defn keyword-props [^GremlinClojurePipeline p & prop-keys]
+  (.keywordMap p (into-array String prop-keys)))
+
 (defn prop [^Element e k]
   (.getProperty e (name k)))
 
