@@ -16,25 +16,29 @@
 
 
 (defprotocol TraversalSteps
-  (run [this] "Added step not from Gremlin to 'run' the traversal, returning a list")
+  (run [g] "Added step not from Gremlin to 'run' the traversal, returning a list")
 
   ; filters
-  (has [this k v])
+  (has [g k v])
 
   ; properties
-  (value [this])
-  (internal-values [this property-keys])
-  (internal-properties [this property-keys])
+  (value [g])
+  (internal-values [g property-keys])
+  (internal-properties [g property-keys])
 
   ; navigation
-  (internal-both [this edge-labels])
-  (internal-bothE [this edge-labels])
+  (internal-both [g edge-labels])
+  (internal-bothE [g edge-labels])
 
-  (internal-in [this edge-labels])
-  (internal-inE  [this edge-labels])
+  (internal-in [g edge-labels])
+  (internal-inE  [g edge-labels])
 
-  (internal-out [this edge-labels])
-  (internal-outE [this edge-labels])
+  (internal-out [g edge-labels])
+  (internal-outE [g edge-labels])
+
+  (inV [g])
+  (outV [g])
+  (bothV [g])
   )
 
 (defmacro internal-varargs
@@ -73,4 +77,8 @@
 
   (internal-out [g edge-labels] (-> g (.out edge-labels)))
   (internal-outE [g edge-labels] (-> g (.outE edge-labels)))
+
+  (inV [g] (-> g (.inV)))
+  (outV [g] (-> g (.outV)))
+  (bothV [g] (-> g (.bothV)))
   )
