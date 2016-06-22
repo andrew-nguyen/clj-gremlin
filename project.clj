@@ -1,15 +1,18 @@
-(defproject clj-gremlin "2.4.0-ALPHA-4-SNAPSHOT"
-  :description "Implementation of TinkerPop Gremlin 2.0"
-  :url "https://github.com/olabini/gremlin-clj"
-  :dependencies [[org.clojure/clojure "1.5.1"]
-                 [com.tinkerpop.gremlin/gremlin-java "2.4.0"]
-                 [com.tinkerpop.blueprints/blueprints-core "2.4.0"]]
+(defproject andrew-nguyen/clj-gremlin "3.0.1"
+  :description "Implementation of TinkerPop Gremlin 3.x"
+  :url "https://github.com/andrew-nguyen/gremlin-clj"
+
+  :dependencies [[org.clojure/clojure "1.9.0-alpha5"]
+                 [org.apache.tinkerpop/gremlin-core "3.0.1-incubating"]
+                 [org.apache.tinkerpop/tinkergraph-gremlin "3.0.1-incubating"]]
+
+  :profiles {:dev {:dependencies [[expectations "2.1.8"]]
+                   :plugins      [[lein-autoexpect "1.9.0"]
+                                  [lein-expectations "0.0.8"]]}}
+
   :aot [clj-gremlin.pipeline]
 
-;  :warn-on-reflection true
-  
-  :repositories [["bd-snapshots" {:url "s3p://bd-deps/snapshots/"
-                                  :username ~(System/getenv "LEIN_USERNAME")
-                                  :passphrase ~(System/getenv "LEIN_PASSPHRASE")}]]
+  :repl-options {:init-ns user}
 
-  :plugins [[s3-wagon-private "1.1.2"]])
+  ;  :warn-on-reflection true
+  )
