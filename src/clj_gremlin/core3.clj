@@ -28,40 +28,42 @@
 
   ; navigation
   (internal-both [g edge-labels])
-  (internal-bothE [g edge-labels])
+  (internal-both-e [g edge-labels])
 
   (internal-in [g edge-labels])
-  (internal-inE  [g edge-labels])
+  (internal-in-e  [g edge-labels])
 
   (internal-out [g edge-labels])
-  (internal-outE [g edge-labels])
+  (internal-out-e [g edge-labels])
 
-  (inV [g])
-  (outV [g])
-  (bothV [g])
+  (in-v [g])
+  (out-v [g])
+  (both-v [g])
+
+  (internal-has-label [g labels])
   )
 
-(defmacro internal-varargs
-  [fname & [clazz]]
-  (let [internal-fname (symbol (str "internal-" (name fname)))
-        clazz (or clazz Object)]
-    `(defn ~fname [g# & args#] (~internal-fname g# (into-array ~clazz args#)))))
+(defmacro internal-varargs-string
+  [fname]
+  (let [internal-fname (symbol (str "internal-" (name fname)))]
+    `(defn ~fname [g# & args#] (~internal-fname g# (into-array String (mapv name args#))))))
 
-(internal-varargs values String)
-(internal-varargs properties String)
-(internal-varargs both String)
-(internal-varargs bothE String)
-(internal-varargs in String)
-(internal-varargs inE String)
-(internal-varargs out String)
-(internal-varargs outE String)
+(internal-varargs-string values)
+(internal-varargs-string properties)
+(internal-varargs-string both)
+(internal-varargs-string both-e)
+(internal-varargs-string in)
+(internal-varargs-string in-e)
+(internal-varargs-string out)
+(internal-varargs-string out-e)
+(internal-varargs-string has-label)
 
 (extend-protocol TraversalSteps
   GraphTraversal
   (run [g] (-> g iterator-seq))
 
   ; filters
-  (has [g k v] (-> g (.has k v)))
+  (has [g k v] (-> g (.has (name k) v)))
 
   ;properties
   (value [g] (.value g))
@@ -70,15 +72,17 @@
 
   ; navigation
   (internal-both [g edge-labels] (-> g (.both edge-labels)))
-  (internal-bothE [g edge-labels] (-> g (.bothE edge-labels)))
+  (internal-both-e [g edge-labels] (-> g (.bothE edge-labels)))
 
   (internal-in [g edge-labels] (-> g (.in edge-labels)))
-  (internal-inE  [g edge-labels] (-> g (.inE edge-labels)))
+  (internal-in-e  [g edge-labels] (-> g (.inE edge-labels)))
 
   (internal-out [g edge-labels] (-> g (.out edge-labels)))
-  (internal-outE [g edge-labels] (-> g (.outE edge-labels)))
+  (internal-out-e [g edge-labels] (-> g (.outE edge-labels)))
 
-  (inV [g] (-> g (.inV)))
-  (outV [g] (-> g (.outV)))
-  (bothV [g] (-> g (.bothV)))
+  (in-v [g] (-> g (.inV)))
+  (out-v [g] (-> g (.outV)))
+  (both-v [g] (-> g (.bothV)))
+
+  (internal-has-label [g labels] (-> g (.hasLabel labels)))
   )
